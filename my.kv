@@ -1,0 +1,343 @@
+#: import FadeTransition kivy.uix.screenmanager.FadeTransition
+
+
+<Button>:
+    font_size: 10
+    color: 0,1,0,1
+    size_hint: 0.3, 0.2
+
+ScreenManagement:
+    transition: FadeTransition()
+    MainScreen:
+    LoginScreen:
+    CustomerScreen:
+    EmployeeScreen:
+    CreateAccountScreen:
+    ForgetScreen:
+
+    
+    
+<MainScreen>:
+    name:"main"
+    Image: 
+        source: 'image3.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    Button:
+        on_release: app.root.current = "Employee"
+        text: "Employee"
+        font_size: 20
+        color: 1,0,0,1
+        pos_hint: {"x": 0.16,'top':0.8 }
+        size_hint: 0.06,0.06
+        background_color: (0.5, 0.5, 0.5, 1)
+         
+    Button:
+        on_release: app.root.current = "Login"
+        text: "Customer"
+        font_size: 20
+        color: 1,0,0,1
+        pos_hint: {"x": 0.16,'top':0.72}
+        size_hint: 0.06,0.06
+        background_color: (0.5, 0.5, 0.5, 1)
+        
+<EmployeeScreen>:
+    name: "Employee"
+    Button:
+    	pos:root.right - self.width, root.top - self.height 
+        on_release: app.root.current = "main"
+		text: "Home"
+        size_hint: 0.04,0.04
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,1
+        background_color: (0, 0, 0, 0)
+
+            
+<LoginScreen>:
+    name: "Login"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+
+    Button:
+		pos:root.right - self.width, root.top - self.height 
+		on_release: app.root.current = "main"
+        text: "Home"
+        size_hint: 0.04,0.04
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,1
+        background_color: (53, 14,25,0)
+
+    Button:
+        on_release: app.root.current = "Customer"
+        text: "Login"
+        font_size: 20
+        color: 1,0,0,1
+        pos_hint: {"x": 0.08,'top':0.8 }
+        size_hint: 0.08,0.08
+        background_color: (0.5, 0.5, 0.5, 1)
+         
+    Button:
+        on_release: app.root.current = "CreateAccount"
+        text: "Create Account"
+        font_size: 20
+        color: 1,0,0,1
+        pos_hint: {"x": 0.08,'top':0.68}
+        size_hint: 0.08,0.08
+        background_color: (0.5, 0.5, 0.5, 1)
+    
+		
+       
+<CustomerScreen>:
+	name: "Customer"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+
+    Button:
+		on_release: app.root.current = "Login"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
+
+    
+	Label:
+		text: "Name: "
+		pos_hint: {"x": 0.5,'top':0.8 }
+		size_hint: (0.06,0.06)
+		font_size: 22
+	TextInput:
+		
+		multiline:False
+		pos_hint: {"x": 0.55,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+	Label:
+		text: "Password: "
+		pos_hint: {"x": 0.5,'top':0.72 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+	TextInput:
+		
+		multiline: False
+		pos_hint: {"x": 0.55,'top':0.72 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+				
+	Button:
+		text:"Submit"
+		pos_hint: {"x": 0.57,'top':0.65 }
+		size_hint: (0.06,0.04)     
+        font_size: 18  	
+		on_release: 
+			app.root.current = "main"
+    Button:
+		text:"Forget Password?"
+		pos_hint: {"x": 0.5,'top':0.65 }
+		size_hint: (0.06,0.04)  
+        font_size: 16
+        background_color: (0, 0, 0, 0)
+        color: 0,0,0,0
+        on_release: 
+			app.root.current = "forget"
+            
+             	
+		
+
+<CreateAccountScreen>:
+    name: "CreateAccount"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    
+    Button:
+		pos:root.right - self.width, root.top - self.height 
+		on_release: app.root.current = "main"
+        text: "Home"
+        size_hint: 0.06,0.06
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,0
+        background_color: (53, 14,25,0)
+
+    Button:
+		on_release: app.root.current = "Login"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
+
+    
+    Label:
+		text: "Name: "
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+		
+	TextInput:
+		
+		multiline:False
+		pos_hint: {"x": 0.15,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+	Label:
+		text: "Date Of Birth: "
+		pos_hint: {"x": 0.08,'top':0.75 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+	TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.75 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+    Label:
+        text:"Address :"
+        pos_hint: {"x": 0.08,'top':0.7 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+    TextInput:
+		multiline: True
+		pos_hint: {"x": 0.15,'top':0.7 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+    
+    Label:
+        text:"Country :"
+        pos_hint: {"x": 0.08,'top':0.65 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+
+    TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.65 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+
+    Label:
+        text:"Bank :"
+        pos_hint: {"x": 0.08,'top':0.6 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+
+    TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.6 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+
+    Label:
+        text:"Mobile No : :"
+        pos_hint: {"x": 0.08,'top':0.55 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+
+    TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.55 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+
+
+    Button:
+		text:"Submit"
+		pos_hint: {"x": 0.1,'top':0.5 }
+		size_hint: (0.1,0.04)        	
+		font_size: 18
+    
+
+    
+
+<ForgetScreen>:
+    name:"forget"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+
+    Button:
+		pos:root.right - self.width, root.top - self.height 
+		on_release: app.root.current = "main"
+        text: "Home"
+        size_hint: 0.06,0.06
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,1
+        background_color: (53, 14,25,0)
+
+    Button:
+		on_release: app.root.current = "Login"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
+    
+
+    Label:
+		text: "User Name: "
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.04,0.04)
+		
+	TextInput:
+		
+		multiline:False
+		pos_hint: {"x": 0.15,'top':0.8 }
+		size_hint: (0.1,0.04)
+	Label:
+		text: "Account Number: "
+		pos_hint: {"x": 0.08,'top':0.75 }
+		size_hint: (0.04,0.04)
+
+	TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.75 }
+		size_hint: (0.1,0.04)
+
+    Label:
+        text:"OTP :"
+        pos_hint: {"x": 0.08,'top':0.7 }
+		size_hint: (0.04,0.04)
+
+    TextInput:
+		multiline: False
+		pos_hint: {"x": 0.15,'top':0.7 }
+		size_hint: (0.1,0.04)
+
+    Button:
+		text:"Submit"
+		pos_hint: {"x": 0.1,'top':0.65 }
+		size_hint: (0.06,0.04)        	
+		on_release: 
+            root.forgetbtn()
+			
+
+            
+            
+            
+            
+            
+            
+            
+            
+            
