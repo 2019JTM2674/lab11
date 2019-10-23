@@ -44,6 +44,7 @@ class MainScreen(Screen):
 class LoginScreen(Screen):
     pass
 
+#CustomerScreen for validation
 class CustomerScreen(Screen):
     username = ObjectProperty(None)
     user_pass = ObjectProperty(None)
@@ -73,7 +74,7 @@ class CustomerScreen(Screen):
             self.user_pass.text = " "
             self.username.text = " "
 
-
+#EmployeeScreen to view customer account details
 class EmployeeScreen(Screen):
     accdet = ObjectProperty(None)
     i=0
@@ -86,7 +87,7 @@ class EmployeeScreen(Screen):
                 self.accdet.text = self.accdet.text + str(i) +'  '
             self.accdet.text = self.accdet.text +'\n'
 
-
+#UpdateScreen for updating details
 class UpdateScreen(Screen):
     uadd = ObjectProperty(None)
     umob = ObjectProperty(None)
@@ -94,9 +95,9 @@ class UpdateScreen(Screen):
     uacc = ObjectProperty(None)
     def onUaddSubmitBtn(self):
         try:
-            mycursor.execute("update customer set address=case when address is not null then '%s' else address End where account_no = '%s'"%(self.uadd.text,self.uacc.text))
-            mycursor.execute("update customer set mobile_no=case when mobile_no is not null then '%s' else mobile_no End where account_no = '%s'"%(self.umob.text,self.uacc.text))
-            mycursor.execute("update customer set dob=case when dob is not null then '%s' else dob End where account_no = '%s'"%(self.udob.text,self.uacc.text))
+            mycursor.execute("update customer set address='%s' where account_no = '%s'"%(self.uadd.text,self.uacc.text))
+            mycursor.execute("update customer set mobile_no = '%s' where account_no = '%s'"%(self.umob.text,self.uacc.text))
+            mycursor.execute("update customer set dob= '%s' where account_no = '%s'"%(self.udob.text,self.uacc.text))
             mydb.commit()
             content = "Details of AccNo."+str(self.uacc.text)+"\nare successfully updated on\n"+str(now)
             pop = Popup(title='Updte Details',
@@ -109,8 +110,13 @@ class UpdateScreen(Screen):
             self.uacc.text=""
             presentation.current = 'main'
         except:
-            invalidUser()
+            pop = Popup(title='Invalid Login',
+                  content=Label(text='Invalid data.'),
+                  size_hint=(None, None), size=(400, 400))
+            pop.open()
 
+
+#CreateAccountScreen to create account
 class CreateAccountScreen(Screen):
     custName = ObjectProperty(None)
     dob = ObjectProperty(None)
@@ -138,7 +144,7 @@ class CreateAccountScreen(Screen):
             invalidUser()
             self.custName.text = ""
 
-
+# For forget password
 class ForgetScreen(Screen):
     global rand_num
     rand_num = randint(1000,9999)
@@ -164,7 +170,7 @@ class ForgetScreen(Screen):
             invalidUser()
             presentation.current = 'forpass'
 
-
+#for resetting password
 class ForgetPassScreen(Screen):
     forpassword = ObjectProperty(None)
     
@@ -180,7 +186,7 @@ class ForgetPassScreen(Screen):
         presentation.current = 'Customer'
     
 
-
+#For customer to select option
 class SelectOptionScreen(Screen):
     bal = ObjectProperty(None)
     five = ObjectProperty(None)
@@ -227,6 +233,38 @@ class SelectOptionScreen(Screen):
             pop.open()
             presentation.current = 'main'
 
+#To transfer money
+class MoneyTransferScreen(Screen):
+    tran_acc = ObjectProperty(None)
+    tran_mob = ObjectProperty(None)
+    tran_name = ObjectProperty(None)
+    tran_amt = ObjectProperty(None)
+    def onClickMT(self):
+        mycursor.execute("select name,mobile_no from customer where account_no=%d"%int(self.tran_acc.text))
+        tran_list = list(mycursor.fetchall())
+        self.tran_name.text = self.tran_name.text+str(tran_list[0][0])
+        self.tran_mob.text = self.tran_mob.text+str(tran_list[0][1])
+    def onTransfer(self):
+        amt = int(self.tran_amt.text)
+        mycursor.execute("select updated_balance from balance where acc_no='%s'"%self.tran_acc.text)
+        q_list = list(mycursor.fetchall())
+        
+        amt = amt+int(q_list[0][0])
+        #print(amt)
+        mycursor.execute("Insert into balance (acc_no,cur_balance,debit,credit,updated_balance) values ('%s','%s','%s','%s','%s')"%(self.tran_acc.text,str(q_list[0][0]),'0',self.tran_amt.text,str(amt)))
+        mycursor.execute("select updated_balance from balance where acc_no='%s'"%str(acc_num))
+        a_list = list(mycursor.fetchall())
+        #print(a_list)
+        u_amt = int(a_list[len(a_list)-1][0])-int(self.tran_amt.text)
+        #print(u_amt)
+        mycursor.execute("Insert into balance (acc_no,cur_balance,debit,credit,updated_balance) values ('%s','%s','%s','%s','%s')"%(str(acc_num),str(a_list[len(a_list)-1][0]),self.tran_amt.text,'0',str(u_amt)))
+        mydb.commit()
+        content = "Amount Transfered successfully on\n"+str(now)
+        pop = Popup(title='Alert',
+                  content=Label(text=content),
+                  size_hint=(None, None), size=(400, 400))
+        pop.open()
+        presentation.current = 'main'
 
 class SelectBankScreen(Screen):
     pass
@@ -258,6 +296,8 @@ class EmployeeLoginScreen(Screen):
 class ScreenManagement(ScreenManager):
     pass
 
+
+#Popup after success
 def success(acc,b):
 
     content = "You are successfully registered for\n"+str(b)+"with \naccount number "+str(acc)
@@ -266,6 +306,7 @@ def success(acc,b):
                   size_hint=(None, None), size=(400, 400))
     pop.open()
 
+#Popup after failure
 def invalidUser():
     pop = Popup(title='Invalid Login',
                   content=Label(text='Invalid username or password.'),

@@ -19,6 +19,7 @@ ScreenManagement:
     SelectOptionScreen:
     UpdateScreen:
     ForgetPassScreen:
+    MoneyTransferScreen:
     
     
 <MainScreen>:
@@ -560,7 +561,8 @@ ScreenManagement:
         font_size: 20
 		pos_hint: {"x": 0.08,'top':0.56 }
 		size_hint: (0.09,0.04) 
-    
+        on_release: 
+            app.root.current = "Money"
     Label:
         id:five
         text:"Last five Transactions\n id  Account_No  Balance  debit credit updated_bal\n"
@@ -639,6 +641,14 @@ ScreenManagement:
 		size_hint: (0.09,0.04) 
         on_release: 
 		    root.onUaddSubmitBtn()
+    Button:
+		on_release: app.root.current = "Employee"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
 
 
 <ForgetPassScreen>:
@@ -670,5 +680,73 @@ ScreenManagement:
 		size_hint: (0.09,0.04) 
         on_release: 
 		    root.onnewpass()
+
+
+<MoneyTransferScreen>:
+    name:"Money"
+    tran_acc:tran_acc
+    tran_name:tran_name
+    tran_mob:tran_mob
+    tran_amt:tran_amt
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    Label:
+        text:"Transfer Account No."
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.09,0.04) 
+
+    TextInput:
+        id:tran_acc
+		multiline: False
+		pos_hint: {"x": 0.16,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+    
+    Button:
+		text:"Click"
+        font_size: 20
+		pos_hint: {"x": 0.16,'top':0.72 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    root.onClickMT()
+
+    Label:
+        id:tran_name
+        text:"Name    "
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.64 }
+		size_hint: (0.09,0.04) 
+    Label:
+        id:tran_mob
+        text:"Mobile No."
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.56 }
+		size_hint: (0.09,0.04)
+    Label:
+        
+        text:"Enter Amount"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.48 }
+		size_hint: (0.09,0.04) 
+
+    TextInput:
+        id:tran_amt
+		multiline: False
+		pos_hint: {"x": 0.16,'top':0.48 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+
+    Button:
+		text:"Transfer"
+        font_size: 20
+		pos_hint: {"x": 0.16,'top':0.42 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    root.onTransfer()
             
             

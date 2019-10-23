@@ -1,0 +1,12 @@
+\contentsline {section}{\numberline {1}Problem Statement -1}{2}{section.1}
+\contentsline {subsection}{\numberline {1.1}Algorithm and Implementation}{2}{subsection.1.1}
+\contentsline {subsection}{\numberline {1.2}Flowchart}{4}{subsection.1.2}
+\contentsline {subsection}{\numberline {1.3}Test Cases}{5}{subsection.1.3}
+\contentsline {subsubsection}{\numberline {1.3.1}Input}{5}{subsubsection.1.3.1}
+\contentsline {subsubsection}{\numberline {1.3.2}Output}{6}{subsubsection.1.3.2}
+\contentsline {subsection}{\numberline {1.4}Screenshots}{7}{subsection.1.4}
+\contentsline {subsubsection}{\numberline {1.4.1}Screenshot1}{7}{subsubsection.1.4.1}
+\contentsline {subsubsection}{\numberline {1.4.2}Screenshot2}{8}{subsubsection.1.4.2}
+\contentsline {subsubsection}{\numberline {1.4.3}Screenshot2}{9}{subsubsection.1.4.3}
+\contentsline {section}{Appendices}{10}{section*.2}
+\contentsline {section}{References}{36}{section*.2}
