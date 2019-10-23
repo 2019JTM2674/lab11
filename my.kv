@@ -14,7 +14,10 @@ ScreenManagement:
     EmployeeScreen:
     CreateAccountScreen:
     ForgetScreen:
-
+    EmployeeLoginScreen:
+    SelectBankScreen:
+    SelectOptionScreen:
+    UpdateScreen:
     
     
 <MainScreen>:
@@ -24,9 +27,11 @@ ScreenManagement:
         width: dp(1900)
         height: dp(1500)
         size: self.size
+        size_hint: 1,1
+        keep_ratio:False
         allow_stretch: True
     Button:
-        on_release: app.root.current = "Employee"
+        on_release: app.root.current = "Employeelogin"
         text: "Employee"
         font_size: 20
         color: 1,0,0,1
@@ -45,6 +50,13 @@ ScreenManagement:
         
 <EmployeeScreen>:
     name: "Employee"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+
     Button:
     	pos:root.right - self.width, root.top - self.height 
         on_release: app.root.current = "main"
@@ -54,6 +66,27 @@ ScreenManagement:
         font_size: 24
         color: 1,0,0,1
         background_color: (0, 0, 0, 0)
+    
+    Button:
+        on_release: app.root.current = "update"
+        text: "Update"
+        font_size: 20
+        color: 1,0,0,1
+        pos_hint: {"x": 0.08,'top':0.8}
+        size_hint: 0.06,0.06
+        background_color: (0.5, 0.5, 0.5, 1)
+
+	Label:
+		text: "Account Details: "
+		pos_hint: {"x": 0.5,'top':0.72 }
+		size_hint: (0.04,0.04)
+        font_size: 20
+	TextInput:
+		
+		multiline: False
+		pos_hint: {"x": 0.55,'top':0.72 }
+		size_hint: (0.1,0.04)
+        font_size: 20
 
             
 <LoginScreen>:
@@ -97,13 +130,23 @@ ScreenManagement:
        
 <CustomerScreen>:
 	name: "Customer"
+    username:username
+    user_pass:user_pass
     Image: 
         source: 'image6.png'
         width: dp(1900)
         height: dp(1500)
         size: self.size
         allow_stretch: True
-
+    Button:
+		pos:root.right - self.width, root.top - self.height 
+		on_release: app.root.current = "main"
+        text: "Home"
+        size_hint: 0.04,0.04
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,1
+        background_color: (53, 14,25,0)
     Button:
 		on_release: app.root.current = "Login"
         text: "Back"
@@ -120,7 +163,7 @@ ScreenManagement:
 		size_hint: (0.06,0.06)
 		font_size: 22
 	TextInput:
-		
+		id:username
 		multiline:False
 		pos_hint: {"x": 0.55,'top':0.8 }
 		size_hint: (0.1,0.04)
@@ -131,7 +174,7 @@ ScreenManagement:
 		size_hint: (0.04,0.04)
         font_size: 22
 	TextInput:
-		
+		id:user_pass
 		multiline: False
 		pos_hint: {"x": 0.55,'top':0.72 }
 		size_hint: (0.1,0.04)
@@ -142,8 +185,9 @@ ScreenManagement:
 		pos_hint: {"x": 0.57,'top':0.65 }
 		size_hint: (0.06,0.04)     
         font_size: 18  	
-		on_release: 
-			app.root.current = "main"
+		on_release:
+            root.onuserbtn()
+			app.root.current = "select"
     Button:
 		text:"Forget Password?"
 		pos_hint: {"x": 0.5,'top':0.65 }
@@ -159,6 +203,12 @@ ScreenManagement:
 
 <CreateAccountScreen>:
     name: "CreateAccount"
+    custName: custName
+    dob:dob
+    address:address
+    country:country
+    bank:bank
+    mobile:mobile
     Image: 
         source: 'image6.png'
         width: dp(1900)
@@ -193,7 +243,7 @@ ScreenManagement:
         font_size: 22
 		
 	TextInput:
-		
+		id: custName
 		multiline:False
 		pos_hint: {"x": 0.15,'top':0.8 }
 		size_hint: (0.1,0.04)
@@ -204,6 +254,7 @@ ScreenManagement:
 		size_hint: (0.04,0.04)
         font_size: 22
 	TextInput:
+        id:dob
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.75 }
 		size_hint: (0.1,0.04)
@@ -214,6 +265,7 @@ ScreenManagement:
 		size_hint: (0.04,0.04)
         font_size: 22
     TextInput:
+        id:address
 		multiline: True
 		pos_hint: {"x": 0.15,'top':0.7 }
 		size_hint: (0.1,0.04)
@@ -226,6 +278,7 @@ ScreenManagement:
         font_size: 22
 
     TextInput:
+        id:country
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.65 }
 		size_hint: (0.1,0.04)
@@ -238,6 +291,7 @@ ScreenManagement:
         font_size: 22
 
     TextInput:
+        id:bank
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.6 }
 		size_hint: (0.1,0.04)
@@ -250,6 +304,7 @@ ScreenManagement:
         font_size: 22
 
     TextInput:
+        id:mobile
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.55 }
 		size_hint: (0.1,0.04)
@@ -261,12 +316,17 @@ ScreenManagement:
 		pos_hint: {"x": 0.1,'top':0.5 }
 		size_hint: (0.1,0.04)        	
 		font_size: 18
+        on_release: 
+		    root.onSubmitBtn()
+
     
 
     
 
 <ForgetScreen>:
     name:"forget"
+    fgname:fgname
+    fgacc:fgacc
     Image: 
         source: 'image6.png'
         width: dp(1900)
@@ -298,23 +358,27 @@ ScreenManagement:
 		text: "User Name: "
 		pos_hint: {"x": 0.08,'top':0.8 }
 		size_hint: (0.04,0.04)
-		
+		font_size: 22
 	TextInput:
-		
+		id:fgname
 		multiline:False
 		pos_hint: {"x": 0.15,'top':0.8 }
 		size_hint: (0.1,0.04)
+        font_size: 22
 	Label:
+        font_size: 22
 		text: "Account Number: "
 		pos_hint: {"x": 0.08,'top':0.75 }
 		size_hint: (0.04,0.04)
 
 	TextInput:
+        id:fgacc
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.75 }
 		size_hint: (0.1,0.04)
-
+        font_size: 22
     Label:
+        font_size: 22
         text:"OTP :"
         pos_hint: {"x": 0.08,'top':0.7 }
 		size_hint: (0.04,0.04)
@@ -323,7 +387,7 @@ ScreenManagement:
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.7 }
 		size_hint: (0.1,0.04)
-
+        font_size: 22
     Button:
 		text:"Submit"
 		pos_hint: {"x": 0.1,'top':0.65 }
@@ -331,12 +395,211 @@ ScreenManagement:
 		on_release: 
             root.forgetbtn()
 			
+<EmployeeLoginScreen>:
+    name:"Employeelogin"
+    empname:empname
+    emp_pass:emp_pass
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
 
+    Button:
+		pos:root.right - self.width, root.top - self.height 
+		on_release: app.root.current = "main"
+        text: "Home"
+        size_hint: 0.06,0.06
+        pos_hint: {"right": 0.95, 'top':1}
+        font_size: 24
+        color: 1,0,0,1
+        background_color: (53, 14,25,0)
+
+
+    Label:
+		text: "Employee Id: "
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+		
+	TextInput:
+		id:empname
+		multiline:False
+		pos_hint: {"x": 0.16,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+	Label:
+		text: "Password: "
+		pos_hint: {"x": 0.08,'top':0.75 }
+		size_hint: (0.04,0.04)
+        font_size: 22
+
+	TextInput:
+        id:emp_pass
+		multiline: False
+		pos_hint: {"x": 0.16,'top':0.75 }
+		size_hint: (0.1,0.04)
+        font_size: 22
+
+    Button:
+		text:"Submit"
+        font_size: 18
+		pos_hint: {"x": 0.1,'top':0.65 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    root.onEmpSubmitBtn()
             
-            
-            
-            
-            
+<SelectBankScreen>:
+    name:"select"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    
+    Button:
+		on_release: app.root.current = "Customer"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
+    Button:
+		text:"SBI"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+			app.root.current = "option"
+		    
+    
+    Button:
+		text:"HDFC"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.72 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    app.root.current = "option"
+		    
+
+    Button:
+		text:"ICICI"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.64 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    app.root.current = "option"
+        
+		    
+<SelectOptionScreen>:
+    name:"option"
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    Button:
+		on_release: app.root.current = "select"
+        text: "Back"
+        size_hint: 0.06,0.06
+        pos_hint: {"left": 0.98, 'top':1}
+        font_size: 24
+        color: 1,1,0,0
+        background_color: (53, 14,25,0)
+    Button:
+		text:"Delete Account"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.09,0.04) 
+        
+    Button:
+		text:"Current Balance"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.72 }
+		size_hint: (0.09,0.04) 
+        
+    Label:
+        text:""
+        font_size: 20
+		pos_hint: {"x": 0.16,'top':0.72 }
+		size_hint: (0.09,0.04) 
+    Button:
+		text:"Last Five Transactions"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.64 }
+		size_hint: (0.12,0.04) 
+        
+    Button:
+		text:"Money Transfer"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.56 }
+		size_hint: (0.09,0.04) 
+        
+
+<UpdateScreen>:
+    name:"update"
+    uadd:uadd
+    umob:umob
+    udob:udob
+    uacc:uacc
+
+    Button:
+		text:"Account No :"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.88 }
+		size_hint: (0.09,0.04) 
+        
+    TextInput:
+        id:uacc
+		multiline: False
+		pos_hint: {"x": 0.20,'top':0.88 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+    Button:
+		text:"Address"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    root.onUaddSubmitBtn()
+    TextInput:
+        id:uadd
+		multiline: False
+		pos_hint: {"x": 0.20,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+
+
+    Button:
+		text:"Mobile Number"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.72 }
+		size_hint: (0.09,0.04) 
+    
+    TextInput:
+        id:umob
+		multiline: False
+		pos_hint: {"x": 0.20,'top':0.72 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+
+    Button:
+		text:"Date Of Birth"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.64 }
+		size_hint: (0.09,0.04) 
+    
+    TextInput:
+        id:udob
+		multiline: False
+		pos_hint: {"x": 0.20,'top':0.64 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+
             
             
             
