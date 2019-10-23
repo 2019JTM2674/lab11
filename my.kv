@@ -18,6 +18,7 @@ ScreenManagement:
     SelectBankScreen:
     SelectOptionScreen:
     UpdateScreen:
+    ForgetPassScreen:
     
     
 <MainScreen>:
@@ -175,6 +176,7 @@ ScreenManagement:
         font_size: 22
 	Label:
 		text: "Password: "
+        
 		pos_hint: {"x": 0.5,'top':0.72 }
 		size_hint: (0.04,0.04)
         font_size: 22
@@ -184,15 +186,15 @@ ScreenManagement:
 		pos_hint: {"x": 0.55,'top':0.72 }
 		size_hint: (0.1,0.04)
         font_size: 22
-				
+        password:True
+       
 	Button:
 		text:"Submit"
 		pos_hint: {"x": 0.57,'top':0.65 }
 		size_hint: (0.06,0.04)     
-        font_size: 18  	
+        font_size: 22  	
 		on_release:
             root.onuserbtn()
-			app.root.current = "select"
     Button:
 		text:"Forget Password?"
 		pos_hint: {"x": 0.5,'top':0.65 }
@@ -332,6 +334,7 @@ ScreenManagement:
     name:"forget"
     fgname:fgname
     fgacc:fgacc
+    otp:otp
     Image: 
         source: 'image6.png'
         width: dp(1900)
@@ -382,13 +385,16 @@ ScreenManagement:
 		pos_hint: {"x": 0.15,'top':0.75 }
 		size_hint: (0.1,0.04)
         font_size: 22
-    Label:
+    Button:
         font_size: 22
         text:"OTP :"
         pos_hint: {"x": 0.08,'top':0.7 }
 		size_hint: (0.04,0.04)
+        on_release: 
+            root.onotp()
 
     TextInput:
+        id:otp
 		multiline: False
 		pos_hint: {"x": 0.15,'top':0.7 }
 		size_hint: (0.1,0.04)
@@ -396,9 +402,11 @@ ScreenManagement:
     Button:
 		text:"Submit"
 		pos_hint: {"x": 0.1,'top':0.65 }
-		size_hint: (0.06,0.04)        	
+		size_hint: (0.06,0.04) 
+        font_size: 20       	
 		on_release: 
             root.forgetbtn()
+            
 			
 <EmployeeLoginScreen>:
     name:"Employeelogin"
@@ -446,6 +454,7 @@ ScreenManagement:
 		pos_hint: {"x": 0.16,'top':0.75 }
 		size_hint: (0.1,0.04)
         font_size: 22
+        password:True
 
     Button:
 		text:"Submit"
@@ -501,6 +510,8 @@ ScreenManagement:
 		    
 <SelectOptionScreen>:
     name:"option"
+    bal:bal
+    five:five
     Image: 
         source: 'image6.png'
         width: dp(1900)
@@ -508,7 +519,9 @@ ScreenManagement:
         size: self.size
         allow_stretch: True
     Button:
-		on_release: app.root.current = "select"
+		on_release: 
+            app.root.current = "select"
+            root.onback()
         text: "Back"
         size_hint: 0.06,0.06
         pos_hint: {"left": 0.98, 'top':1}
@@ -520,14 +533,17 @@ ScreenManagement:
         font_size: 20
 		pos_hint: {"x": 0.08,'top':0.8 }
 		size_hint: (0.09,0.04) 
-        
+        on_release: 
+            root.ondelete()
     Button:
 		text:"Current Balance"
         font_size: 20
 		pos_hint: {"x": 0.08,'top':0.72 }
 		size_hint: (0.09,0.04) 
-        
+        on_release: root.onbal()
+
     Label:
+        id:bal
         text:""
         font_size: 20
 		pos_hint: {"x": 0.16,'top':0.72 }
@@ -537,13 +553,20 @@ ScreenManagement:
         font_size: 20
 		pos_hint: {"x": 0.08,'top':0.64 }
 		size_hint: (0.12,0.04) 
+        on_release: root.onfive()
         
     Button:
 		text:"Money Transfer"
         font_size: 20
 		pos_hint: {"x": 0.08,'top':0.56 }
 		size_hint: (0.09,0.04) 
-        
+    
+    Label:
+        id:five
+        text:"Last five Transactions\n id  Account_No  Balance  debit credit updated_bal\n"
+        font_size: 20
+		pos_hint: {"x": 0.5,'top':0.48 }
+		size_hint: (0.09,0.04) 
 
 <UpdateScreen>:
     name:"update"
@@ -617,7 +640,35 @@ ScreenManagement:
         on_release: 
 		    root.onUaddSubmitBtn()
 
-            
-            
+
+<ForgetPassScreen>:
+    name:"forpass"
+    forpassword:forpassword
+    Image: 
+        source: 'image6.png'
+        width: dp(1900)
+        height: dp(1500)
+        size: self.size
+        allow_stretch: True
+    Label:
+        text:"Password"
+        font_size: 20
+		pos_hint: {"x": 0.08,'top':0.8 }
+		size_hint: (0.09,0.04) 
+
+    TextInput:
+        id:forpassword
+		multiline: False
+		pos_hint: {"x": 0.16,'top':0.8 }
+		size_hint: (0.1,0.04)
+        font_size: 20
+    
+    Button:
+		text:"Confirm Password"
+        font_size: 20
+		pos_hint: {"x": 0.20,'top':0.56 }
+		size_hint: (0.09,0.04) 
+        on_release: 
+		    root.onnewpass()
             
             

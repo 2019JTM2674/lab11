@@ -14,7 +14,7 @@ from kivy.properties import ObjectProperty
 import pymysql
 from getpass import getpass
 from kivy.uix.floatlayout import FloatLayout 
-import random 
+from random import randint
 from kivy.uix.popup import Popup
 from datetime import datetime
 
@@ -22,7 +22,8 @@ from datetime import datetime
 
 
 now = datetime.now()
-
+acc_num = ''
+flag = ''
 
 #Establishing connection with user and database
 mydb = pymysql.connect(
@@ -47,15 +48,20 @@ class CustomerScreen(Screen):
     username = ObjectProperty(None)
     user_pass = ObjectProperty(None)
     def onuserbtn(self):
-        mycursor.execute("select password from customer where name='%s'"%self.username.text)
-        user_list = list(mycursor.fetchall())
-        #print(emp_list)
         try:
+            mycursor.execute("select password from customer where name='%s'"%self.username.text)
+            user_list = list(mycursor.fetchall())
+            mycursor.execute("select account_no from customer where name='%s'"%self.username.text)
+            new = list(mycursor.fetchall())
+            global acc_num
+            acc_num = str(new[0][0])
+            print(acc_num)
+            #print(emp_list)
             if str(user_list[0][0]) == self.user_pass.text:
-                #print("Login Sucessfull")
+                print("Login Sucessfull")
                 self.user_pass.text = " "
                 self.username.text = " "
-                presentation.current = "main"
+                presentation.current = "select"
             else:
                 invalidUser()
                 presentation.current = "main"
@@ -134,11 +140,93 @@ class CreateAccountScreen(Screen):
 
 
 class ForgetScreen(Screen):
+    global rand_num
+    rand_num = randint(1000,9999)
+    fgname = ObjectProperty(None)
+    fgacc = ObjectProperty(None)
+    otp = ObjectProperty(None)
+
+    def onotp(self):
+        
+        content = "OTP for forget password is:"+str(rand_num)
+        pop = Popup(title='OTP',
+                    content=Label(text=content),
+                    size_hint=(None, None), size=(400, 400))
+        pop.open()
+    def forgetbtn(self):
+        
+        global for_accno
+        for_accno = self.fgacc.text
+        #print(for_accno)
+        if self.otp.text == str(rand_num) :
+            presentation.current = 'forpass'
+        else:
+            invalidUser()
+            presentation.current = 'forpass'
+
+
+class ForgetPassScreen(Screen):
+    forpassword = ObjectProperty(None)
     
-    pass
+    def onnewpass(self):
+        print(for_accno)
+        mycursor.execute("update customer set password='%s' where account_no=%d"%(self.forpassword.text,int(for_accno)))
+        mydb.commit()
+        content = "Password Changed Successfully"
+        pop = Popup(title='Password Change',
+                    content=Label(text=content),
+                    size_hint=(None, None), size=(400, 400))
+        pop.open()
+        presentation.current = 'Customer'
+    
+
 
 class SelectOptionScreen(Screen):
-    pass
+    bal = ObjectProperty(None)
+    five = ObjectProperty(None)
+    k=0
+    p=''
+    #print(acc_num)
+    def onbal(self,*args):
+        mycursor.execute("select max(id) from balance where acc_no='%s'"%str(acc_num))
+        max_id = list(mycursor.fetchall())
+        k=max_id[0][0]
+        mycursor.execute("select updated_balance from balance where id=%d"%k)
+        cur_bal = list(mycursor.fetchall())
+        p = str(cur_bal[0][0])
+        #print(p)
+        self.bal.text = self.bal.text+ "RS"+ p
+
+    def onfive(self):
+        mycursor.execute("select * from balance where acc_no = '%s' order by id desc limit 5"%str(acc_num))
+        five_list = list(mycursor.fetchall())
+        for t in five_list:
+            for i in t:
+                #print(i)
+                self.five.text = self.five.text + str(i) +'  '
+            self.five.text = self.five.text +'\n'
+    def onback(self):
+        self.bal.text = ' ' 
+        self.five.text = ' '
+    
+    def ondelete(self):
+        try:
+            mycursor.execute("delete from customer where account_no=%d"%int(acc_num))
+            mydb.commit()
+            content = "Your Account is deleted\n"+str(acc_num)
+            pop = Popup(title='Delete Account',
+                    content=Label(text=content),
+                    size_hint=(None, None), size=(400, 400))
+            pop.open()
+            presentation.current = 'main'
+        except:
+            content = "You doesn't have account in this bank"
+            pop = Popup(title='Delete Account',
+                    content=Label(text=content),
+                    size_hint=(None, None), size=(400, 400))
+            pop.open()
+            presentation.current = 'main'
+
 
 class SelectBankScreen(Screen):
     pass
@@ -196,3 +284,4 @@ if __name__ == "__main__":
 #     Window.size = (1366, 768)
 #     Window.fullscreen = True
     Float_LayoutApp().run()
+    #global acc_num
