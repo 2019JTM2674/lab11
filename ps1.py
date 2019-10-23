@@ -16,7 +16,12 @@ from getpass import getpass
 from kivy.uix.floatlayout import FloatLayout 
 import random 
 from kivy.uix.popup import Popup
+from datetime import datetime
 
+
+
+
+now = datetime.now()
 
 
 #Establishing connection with user and database
@@ -64,7 +69,17 @@ class CustomerScreen(Screen):
 
 
 class EmployeeScreen(Screen):
-    pass
+    accdet = ObjectProperty(None)
+    i=0
+    def onaccdet(self):
+        mycursor.execute("select * from customer")
+        acc_list = list(mycursor.fetchall())
+        for cus in acc_list:
+            for i in cus:
+                #print(i)
+                self.accdet.text = self.accdet.text + str(i) +'  '
+            self.accdet.text = self.accdet.text +'\n'
+
 
 class UpdateScreen(Screen):
     uadd = ObjectProperty(None)
@@ -74,7 +89,19 @@ class UpdateScreen(Screen):
     def onUaddSubmitBtn(self):
         try:
             mycursor.execute("update customer set address=case when address is not null then '%s' else address End where account_no = '%s'"%(self.uadd.text,self.uacc.text))
+            mycursor.execute("update customer set mobile_no=case when mobile_no is not null then '%s' else mobile_no End where account_no = '%s'"%(self.umob.text,self.uacc.text))
+            mycursor.execute("update customer set dob=case when dob is not null then '%s' else dob End where account_no = '%s'"%(self.udob.text,self.uacc.text))
             mydb.commit()
+            content = "Details of AccNo."+str(self.uacc.text)+"\nare successfully updated on\n"+str(now)
+            pop = Popup(title='Updte Details',
+                  content=Label(text=content),
+                  size_hint=(None, None), size=(400, 400))
+            pop.open()
+            self.uadd.text = ""
+            self.umob.text = ""
+            self.udob.text=" "
+            self.uacc.text=""
+            presentation.current = 'main'
         except:
             invalidUser()
 
